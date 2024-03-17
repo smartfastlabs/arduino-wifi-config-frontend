@@ -5,7 +5,7 @@ import "./App.css";
 function App() {
   return (
     <Routes>
-      <Route path="/a" component={NewDevice} />
+      <Route path="/" component={NewDevice} />
     </Routes>
   );
 }
