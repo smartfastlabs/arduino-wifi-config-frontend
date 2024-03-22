@@ -29,25 +29,11 @@ export default function NewDevice() {
   const [state, setState] = createSignal("initial");
   const [counter, setCounter] = createSignal(0);
 
-  createEffect(() => {
-    switch (state()) {
-      case "running":
-        if (config()) {
-          return navigate(`/device/${config().uuid}/edit`, { replace: false });
-        }
-    }
-  });
-
   async function updateConfigClick(e) {
     e.preventDefault();
-    const c = config();
 
-    if (!c.uuid) {
-      c.uuid = crypto.randomUUID();
-    }
-    const response = await updateConfig({
-      ...c,
-    });
+    const response = await updateConfig(config());
+    console.log(response);
   }
 
   async function runDeviceClick(e) {
@@ -103,18 +89,28 @@ export default function NewDevice() {
                 class="form-control"
                 id="ssid"
                 placeholder="Enter WiFi SSID"
-                value={config() ? config().ssid : ""}
+                value={config().ssid || ""}
                 onKeyUp={(e) => onConfigChange("ssid", e.target.value)}
               />
             </div>
             <div class="form-group">
               <input
-                type="text"
+                type="password"
                 class="form-control"
                 id="password"
                 placeholder="Enter WiFi Password"
-                value={config() ? config().password : ""}
+                value={config().password || ""}
                 onKeyUp={(e) => onConfigChange("password", e.target.value)}
+              />
+            </div>
+            <div class="mb-2 form-group">
+              <input
+                type="text"
+                class="form-control"
+                id="ip"
+                placeholder="Enter IP Address for Static IP"
+                value={config().ip || ""}
+                onKeyUp={(e) => onConfigChange("ip", e.target.value)}
               />
             </div>
             <button class="w-100 my-3 btn-info btn" onClick={updateConfigClick}>

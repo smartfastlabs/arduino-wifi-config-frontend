@@ -33,14 +33,16 @@ export async function fetchConfig() {
 
 export async function updateConfig(config) {
   console.log("updateConfig", config);
+  const headers = {
+    ssid: config.ssid,
+    password: config.password,
+  };
+  if (config.ip) {
+    headers.ip = config.ip;
+  }
   return await safeFetch("http://192.48.56.2/set", {
     method: "POST",
-    headers: {
-      ssid: config.ssid,
-      password: config.password,
-      uuid: config.uuid,
-      serverIP: "192.168.86.48",
-    },
+    headers: headers,
   });
 }
 
@@ -57,7 +59,7 @@ async function safeFetch(url, options) {
     } catch (e) {
       if (i++ > 2) {
         console.error("safeFetch", e);
-        return Promise.reject(new Error("THIS IS MY HOUSE"));
+        return Promise.reject(new Error("SOMETHING WENT WRONG"));
       }
     }
   }
