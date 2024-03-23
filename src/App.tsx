@@ -1,11 +1,11 @@
 import { Routes, Route } from "@solidjs/router";
-import NewDevice from "./components/newDevice";
+import Connect from "./components/connect";
 import "./App.css";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" component={NewDevice} />
+      <Route path="/" component={Connect} />
     </Routes>
   );
 }
